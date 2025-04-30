@@ -57,7 +57,7 @@ Base Path: `/api/`
 | GET    | `/roles/`        | List all roles      | Admin         |
 
 
-**User Stories (Included in Implementation Plan)**
+## User Stories (Included in Implementation Plan):
 - As an Admin, I want to log in to the system.
 - As an Admin, I want to add, view, edit, and delete medical devices.
 - As an Admin, I want to view all work orders.
