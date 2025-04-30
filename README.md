@@ -1,5 +1,9 @@
 # MediTrack_backend
 
+## Database Design (ERD):
+
+![image](https://github.com/user-attachments/assets/3cc93460-5461-4126-baca-de419817748a)
+
 ## Backend API Routing (Django REST Framework):
 
 Base Path: `/api/`
