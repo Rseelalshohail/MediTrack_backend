@@ -1,11 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 # Create your models here.
-class User(AbstractUser):
-    pass 
-#-------------------------------------------
 class Admin (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
@@ -49,6 +46,7 @@ class Device (models.Model):
     ]
     asset_number = models.CharField(max_length=50, unique=True)
     serial_number = models.CharField(max_length=50)
+    equipment_name = models.CharField(max_length=200)
     model = models.CharField(max_length=100)
     manufacturer = models.CharField(max_length=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
@@ -60,6 +58,7 @@ class Device (models.Model):
         blank=True,
         related_name='assigned_devices'
     )
+    assigned_nurses = models.ManyToManyField(User, blank=True, related_name="devices_assigned", limit_choices_to={"user_type": "nurse"})
     last_inventory_date = models.DateField(null=True, blank=True)
     
     def __str__(self):
@@ -67,8 +66,8 @@ class Device (models.Model):
 #-------------------------------------------
 class WorkOrder(models.Model):
     TYPE_CHOICES = [
-        ("CM", "Corrective Maintenance"),
-        ("PM", "Preventive Maintenance"),
+        ("CM", "Corrective Maintenance (CM)"),
+        ("PPM", "Planned Preventive Maintenance (PPM)"),
     ]
     
     STATUS_CHOICES = [
