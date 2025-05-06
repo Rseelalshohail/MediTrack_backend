@@ -1,5 +1,5 @@
-CREATE DATABASE meditrack;
+CREATE DATABASE MediTrack;
 
-CREATE USER meditrack_admin WITH PASSWORD 'password';
+CREATE USER MediTrack_admin WITH PASSWORD 'password';
 
-GRANT ALL PRIVILEGES ON DATABASE meditrack TO meditrack_admin;
+GRANT ALL PRIVILEGES ON DATABASE MediTrack TO MediTrack_admin;
