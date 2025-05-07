@@ -122,8 +122,8 @@ class DeviceDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_permissions(self):
         if self.request.method == 'GET':
-            return [IsAuthenticated()]
-        return [IsAuthenticated(), IsAdminUser()]
+            return [IsAuthenticated()]  
+        return [IsAuthenticated(), IsAdminUser()]  
 
 
 class WorkOrderListCreateView(generics.ListCreateAPIView):
@@ -174,23 +174,45 @@ class AdminDashboardView(APIView):
     permission_classes = [IsAuthenticated & IsAdminUser]
 
     def get(self, request):
+        activity = []
+
+        for wo in WorkOrder.objects.order_by('-reported_date')[:2]:
+            activity.append({
+                "message": f"Work Order {wo.work_number} status: {wo.get_status_display()}",
+                "timestamp": timesince(wo.reported_date, now()) + " ago"
+            })
+
+        for sp in SparePartRequest.objects.order_by('-request_date')[:2]:
+            activity.append({
+                "message": f"Spare Part Request {sp.request_number} ({sp.get_status_display()})",
+                "timestamp": timesince(sp.request_date, now()) + " ago"
+            })
+
+        recent_activity = sorted(activity, key=lambda x: x['timestamp'])[:4]
+
         return Response({
             "total_hospitals": Hospital.objects.count(),
             "total_devices": Device.objects.count(),
             "total_work_orders": WorkOrder.objects.count(),
-            "pending_spare_requests": SparePartRequest.objects.filter(status="pending").count()
+            "pending_spare_requests": SparePartRequest.objects.filter(status="pending").count(),
+            "recent_activity": recent_activity
         })
+
 
 class EngineerDashboardView(APIView):
     permission_classes = [IsAuthenticated & IsEngineerUser]
 
     def get(self, request):
         user = request.user
-        assigned_devices = Device.objects.filter(assigned_engineer=user).count()
-        my_work_orders = WorkOrder.objects.filter(assigned_to=user)
-        open_work_orders = my_work_orders.filter(status="open").count()
 
+        total_assigned_devices = Device.objects.filter(assigned_engineer=user).count()
+        my_work_orders = WorkOrder.objects.filter(assigned_to=user)
+        total_my_work_orders = my_work_orders.count()
+        total_open_work_orders = my_work_orders.filter(status="open").count()
+
+        # Recent Activity
         activity = []
+
         for wo in my_work_orders.order_by('-reported_date')[:2]:
             activity.append({
                 "message": f"Work Order {wo.work_number} status: {wo.get_status_display()}",
@@ -203,12 +225,12 @@ class EngineerDashboardView(APIView):
                 "timestamp": timesince(sp.request_date, now()) + " ago"
             })
 
-        recent_activity = sorted(activity, key=lambda x: x['timestamp'])[:3]
+        recent_activity = sorted(activity, key=lambda x: x["timestamp"])[:4]
 
         return Response({
-            "assigned_devices": assigned_devices,
-            "my_work_orders": my_work_orders.count(),
-            "open_work_orders": open_work_orders,
+            "total_assigned_devices": total_assigned_devices,
+            "total_my_work_orders": total_my_work_orders,
+            "total_open_work_orders": total_open_work_orders,
             "recent_activity": recent_activity
         })
 
@@ -216,10 +238,33 @@ class NurseDashboardView(APIView):
     permission_classes = [IsAuthenticated & IsNurseUser]
 
     def get(self, request):
+        user = request.user
+        created_work_orders = WorkOrder.objects.filter(created_by=user)
+        open_work_orders = created_work_orders.filter(status="open").count()
+        closed_work_orders_qs = created_work_orders.filter(status="closed")
+        closed_work_orders = closed_work_orders_qs.count()
+
+        activity = []
+
+        for wo in created_work_orders.order_by('-reported_date'):
+            activity.append({
+                "message": f"Work Order {wo.work_number} has been created",
+                "timestamp": timesince(wo.reported_date, now()) + " ago"
+            })
+
+        for wo in closed_work_orders_qs.order_by('-completed_date'):
+            activity.append({
+                "message": f"Work Order {wo.work_number} has been closed",
+                "timestamp": timesince(wo.completed_date or wo.reported_date, now()) + " ago"
+            })
+
+        recent_activity = sorted(activity, key=lambda x: x["timestamp"])[:4]
+
         return Response({
-            "reported_work_orders": WorkOrder.objects.filter(created_by=request.user).count(),
-            "open_work_orders": WorkOrder.objects.filter(status="open").count(),
-            "closed_work_orders": WorkOrder.objects.filter(status="closed").count()
+            "reported_work_orders": created_work_orders.count(),
+            "open_work_orders": open_work_orders,
+            "closed_work_orders": closed_work_orders,
+            "recent_activity": recent_activity
         })
 
 class UserListByTypeView(APIView):
@@ -279,3 +324,17 @@ class EngineerOpenWorkOrdersView(generics.ListAPIView):
             assigned_to=self.request.user,
             status='open'
         )
+
+class NurseWorkOrdersView(APIView):
+    permission_classes = [IsAuthenticated & IsNurseUser]
+
+    def get(self, request):
+        user = request.user
+        open_orders = WorkOrder.objects.filter(created_by=user, status='open')
+        closed_orders = WorkOrder.objects.filter(created_by=user, status='closed')
+
+        return Response({
+            "open": WorkOrderReadSerializer(open_orders, many=True).data,
+            "closed": WorkOrderReadSerializer(closed_orders, many=True).data
+        })
+

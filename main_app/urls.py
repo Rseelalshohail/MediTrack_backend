@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Home, AdminSignupView, EngineerSignupView, NurseSignupView, LoginView, HospitalListCreateView, HospitalDetailView, RoomListCreateView, RoomDetailView, DeviceListCreateView, DeviceDetailView, WorkOrderListCreateView, WorkOrderDetailView, SparePartRequestListCreateView, SparePartRequestDetailView, AdminDashboardView, EngineerDashboardView, NurseDashboardView, UserListByTypeView, AssignedDeviceListView, EngineerAssignedWorkOrders, EngineerOpenWorkOrdersView
+from .views import Home, AdminSignupView, EngineerSignupView, NurseSignupView, LoginView, HospitalListCreateView, HospitalDetailView, RoomListCreateView, RoomDetailView, DeviceListCreateView, DeviceDetailView, WorkOrderListCreateView, WorkOrderDetailView, SparePartRequestListCreateView, SparePartRequestDetailView, AdminDashboardView, EngineerDashboardView, NurseDashboardView, UserListByTypeView, AssignedDeviceListView, EngineerAssignedWorkOrders, EngineerOpenWorkOrdersView, NurseWorkOrdersView
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
@@ -24,4 +24,5 @@ urlpatterns = [
     path('devices/assigned/', AssignedDeviceListView.as_view(), name='assigned-devices'),
     path('workorders/assigned/', EngineerAssignedWorkOrders.as_view(), name='engineer-workorders'),
     path('workorders/open/', EngineerOpenWorkOrdersView.as_view(), name='open-workorders'),
+    path('workorders/nurse/', NurseWorkOrdersView.as_view(), name='nurse-workorders'),
 ]

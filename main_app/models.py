@@ -91,6 +91,9 @@ class WorkOrder(models.Model):
         blank=True, 
         related_name="assigned_work_orders"
         )
+    technical_action = models.TextField(blank=True, null=True)
+    photo = models.ImageField(upload_to='work_order_photos/', blank=True, null=True)  
+
     
     def save (self, *args, **kwargs):
         if not self.work_number:
@@ -118,6 +121,7 @@ class SparePartRequest(models.Model):
     ]
     
     request_number = models.CharField(max_length=20, unique=True, editable=False)
+    part_name = models.CharField(max_length=150)
     description = models.TextField()
     quantity = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default="pending")
