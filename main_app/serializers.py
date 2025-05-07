@@ -146,6 +146,8 @@ class WorkOrderReadSerializer(serializers.ModelSerializer):
     created_by_id = serializers.IntegerField(source='created_by.id', read_only=True)
     reported_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     completed_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M", required=False)
+    technical_action = serializers.CharField(read_only=True)
+    photo = serializers.ImageField(read_only=True)
 
     class Meta:
         model = WorkOrder
@@ -160,8 +162,10 @@ class WorkOrderReadSerializer(serializers.ModelSerializer):
             'device_display',
             'created_by_display',
             'assigned_to_display',
-            'assigned_to_id',    # ✅ NEW
-            'created_by_id',     # ✅ NEW
+            'assigned_to_id',    
+            'created_by_id', 
+            'technical_action', 
+            'photo', 
         )
         read_only_fields = ('id', 'work_number',)
 
@@ -199,6 +203,7 @@ class SparePartRequestReadSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'request_number',
+            'part_name',
             'description',
             'quantity',
             'status',
