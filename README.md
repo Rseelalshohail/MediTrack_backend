@@ -99,8 +99,8 @@ Base Path: `/api/`
 
 ```bash
 # Clone the repo
-$ git clone <this-backend-repo>
-$ cd <this-backend-folder>
+$ git clone <MediTrack_backend>
+$ cd <MediTrack_backend>
 
 # Set up virtual environment and install dependencies
 $ pipenv install
