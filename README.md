@@ -2,11 +2,11 @@
 
 ## 🌟 Project Description
 
-The backend of MediTrack provides the API logic and data management for a hospital equipment maintenance tracking system. It supports user authentication, role-based permissions, and full CRUD for devices, work orders, rooms, hospitals, and spare part requests.
+MediTrack is a full-stack medical device management system designed for hospitals and clinical environments. It enables engineers, nurses, and administrators to manage medical equipment, work orders, and spare part requests through a secure, role-based interface. The backend is built with Django and Django REST Framework, supporting robust APIs, user authentication (JWT), and multi-role access logic.
 
 ## 🔹 Repository Description
 
-This Django project uses Django REST Framework to serve a secure and scalable RESTful API for the MediTrack application. It includes custom permissions for Admin, Nurse, and Engineer roles, and JWT authentication for session handling.
+This repository contains the backend of the MediTrack project. It handles API endpoints, database models, business logic, and JWT-based authentication for three user types (Admin, Engineer, Nurse).
 
 ## 📄 Frontend Repository
 
@@ -118,8 +118,8 @@ $ docker compose up --build
 
 ## 🧋 IceBox Features
 
-- Notification system for engineers and nurses  
-- Real-time dashboard updates (WebSockets)  
 - Email reminders for overdue work orders  
-- Multi-language support  
+- Multi-language support
+- Work order priority levels
+- Ability to export PDF reports for work orders  
 - Dark mode toggle
