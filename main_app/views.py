@@ -6,7 +6,7 @@ from rest_framework.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.timesince import timesince
-from django.utils.timezone import now
+from django.utils.timezone import localtime
 from .permissions import IsAdminUser, IsEngineerUser, IsNurseUser, IsAdminOrEngineer, IsAdminOrNurse
 from .models import Hospital, Room, Device, WorkOrder, SparePartRequest, Admin, Engineer, Nurse
 from .serializers import (
@@ -179,13 +179,13 @@ class AdminDashboardView(APIView):
         for wo in WorkOrder.objects.order_by('-reported_date')[:2]:
             activity.append({
                 "message": f"Work Order {wo.work_number} status: {wo.get_status_display()}",
-                "timestamp": timesince(wo.reported_date, now()) + " ago"
+                "timestamp": timesince(wo.reported_date, localtime()) + " ago"
             })
 
         for sp in SparePartRequest.objects.order_by('-request_date')[:2]:
             activity.append({
                 "message": f"Spare Part Request {sp.request_number} ({sp.get_status_display()})",
-                "timestamp": timesince(sp.request_date, now()) + " ago"
+                "timestamp": timesince(sp.request_date, localtime()) + " ago"
             })
 
         recent_activity = sorted(activity, key=lambda x: x['timestamp'])[:4]
@@ -216,13 +216,13 @@ class EngineerDashboardView(APIView):
         for wo in my_work_orders.order_by('-reported_date')[:2]:
             activity.append({
                 "message": f"Work Order {wo.work_number} status: {wo.get_status_display()}",
-                "timestamp": timesince(wo.reported_date, now()) + " ago"
+                "timestamp": timesince(wo.reported_date, localtime()) + " ago"
             })
 
         for sp in SparePartRequest.objects.filter(requested_by=user).order_by('-request_date')[:2]:
             activity.append({
                 "message": f"Spare Part Request {sp.request_number} ({sp.get_status_display()})",
-                "timestamp": timesince(sp.request_date, now()) + " ago"
+                "timestamp": timesince(sp.request_date, localtime()) + " ago"
             })
 
         recent_activity = sorted(activity, key=lambda x: x["timestamp"])[:4]
@@ -249,13 +249,13 @@ class NurseDashboardView(APIView):
         for wo in created_work_orders.order_by('-reported_date'):
             activity.append({
                 "message": f"Work Order {wo.work_number} has been created",
-                "timestamp": timesince(wo.reported_date, now()) + " ago"
+                "timestamp": timesince(wo.reported_date, localtime()) + " ago"
             })
 
         for wo in closed_work_orders_qs.order_by('-completed_date'):
             activity.append({
                 "message": f"Work Order {wo.work_number} has been closed",
-                "timestamp": timesince(wo.completed_date or wo.reported_date, now()) + " ago"
+                "timestamp": timesince(wo.completed_date or wo.reported_date, localtime()) + " ago"
             })
 
         recent_activity = sorted(activity, key=lambda x: x["timestamp"])[:4]

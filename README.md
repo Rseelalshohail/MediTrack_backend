@@ -1,12 +1,14 @@
-# MediTrack_backend
+# MediTrack Backend 
 
-## Project Overview:
-Create a full-stack web application for hospital staff to manage medical devices, work
-orders (CM and PPM), spare parts requests, and annual inventory checks. The system
-must have user roles (Nurse, Engineer, Admin) with different permissions based on the
-role.
+## 🌟 Project Description
 
-## Database Design (ERD):
+The backend of MediTrack provides the API logic and data management for a hospital equipment maintenance tracking system. It supports user authentication, role-based permissions, and full CRUD for devices, work orders, rooms, hospitals, and spare part requests.
+
+## 🔹 Repository Description
+
+This Django project uses Django REST Framework to serve a secure and scalable RESTful API for the MediTrack application. It includes custom permissions for Admin, Nurse, and Engineer roles, and JWT authentication for session handling.
+
+## 📄 Frontend Repository
 
 ![image](https://github.com/user-attachments/assets/3cc93460-5461-4126-baca-de419817748a)
 
