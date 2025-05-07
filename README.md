@@ -10,9 +10,25 @@ This Django project uses Django REST Framework to serve a secure and scalable RE
 
 ## 📄 Frontend Repository
 
+https://github.com/Rseelalshohail/MediTrack_frontend
+
+## 🤖 Live Link
+
+http://localhost:5173/signup
+
+## 🌐 Tech Stack
+
+- Django  
+- Django REST Framework  
+- PostgreSQL  
+- SimpleJWT  
+- Docker
+
+## 📄 ERD Diagram
+
 ![image](https://github.com/user-attachments/assets/3cc93460-5461-4126-baca-de419817748a)
 
-## Backend API Routing (Django REST Framework):
+## 📄 Routing Table
 
 Base Path: `/api/`
 
@@ -71,14 +87,39 @@ Base Path: `/api/`
 - As an Admin, I want to view all work orders.
 - As an Admin, I want to view all spare part requests.
 - As an Engineer, I want to log in to the system.
-- As an Engineer, I want to view devices assigned to me or in my area.
-- As an Engineer, I want to edit device details.
-- As an Engineer, I want to create Corrective Maintenance (CM) and Preventive Planned Maintenance (PPM) work orders.
+- As an Engineer, I want to view devices assigned to me.
 - As an Engineer, I want to update the status of my work orders.
 - As an Engineer, I want to request spare parts for a device.
-- As an Engineer, I want to perform annual inventory by updating a device's location.
 - As a Nurse, I want to log in to the system.
-- As a Nurse, I want to view devices in my department/location.
-- As a Nurse, I want to create a Corrective Maintenance (CM) work order for a device.
-- As a Nurse, I want to view work orders for my department.
-- As a Nurse, I want to close a work order when the issue is resolved.
+- As a Nurse, I want to view devices assigned to me.
+- As a Nurse, I want to create a work order for a device.
+- As a Nurse, I want to view work orders created by me.
+
+## 📚 Installation Instructions
+
+```bash
+# Clone the repo
+$ git clone <this-backend-repo>
+$ cd <this-backend-folder>
+
+# Set up virtual environment and install dependencies
+$ pipenv install
+$ pipenv shell
+$ python manage.py makemigrations
+$ python manage.py migrate
+$ python manage.py runserver
+```
+
+**If using Docker:**
+
+```bash
+$ docker compose up --build
+```
+
+## 🧋 IceBox Features
+
+- Notification system for engineers and nurses  
+- Real-time dashboard updates (WebSockets)  
+- Email reminders for overdue work orders  
+- Multi-language support  
+- Dark mode toggle
