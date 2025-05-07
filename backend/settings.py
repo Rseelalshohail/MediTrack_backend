@@ -165,3 +165,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_USER_MODEL = 'main_app.User'
 
+TIME_ZONE = 'Asia/Riyadh'
+USE_TZ = True
