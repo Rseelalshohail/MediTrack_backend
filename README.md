@@ -116,7 +116,7 @@ $ python manage.py runserver
 $ docker compose up --build
 ```
 
-## 🧋 IceBox Features
+## 🧊 IceBox Features
 
 - Email reminders for overdue work orders  
 - Multi-language support
