@@ -115,7 +115,7 @@ DATABASES = {
         'ENGINE': os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
         'NAME': os.environ.get("SQL_DATABASE", "MediTrack"),
         'USER': os.environ.get("SQL_USER", "postgres"),
-        'PASSWORD': os.environ.get("SQL_PASSWORD", "19931993Rr."),
+        'PASSWORD': os.environ.get("SQL_PASSWORD"),
         'HOST': os.environ.get("SQL_HOST", "localhost"),
         'PORT': os.environ.get("SQL_PORT", "5432"),
     }
