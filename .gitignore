@@ -1,0 +1,15 @@
+# Ignore environment files
+.env
+.env.dev
+.env.*
+
+# Ignore Python stuff
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Ignore Django stuff
+db.sqlite3
+
+# Ignore VS Code settings (if using)
+.vscode/
